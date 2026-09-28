@@ -1,0 +1,37 @@
+var globalVariable = "global";
+
+{
+  // EXPECT ERROR: unusedLocal is never used.
+  var unusedLocal = "unused";
+
+  // No error: usedLocal is read by print.
+  var usedLocal = "used";
+  print usedLocal;
+
+  // No error: a variable is considered used when it is read by another
+  // variable's initializer.
+  var source = "source";
+  var copy = source;
+  print copy;
+}
+
+{
+  // EXPECT ERROR: outerUnused is never used, even though the nested block
+  // declares another variable.
+  var outerUnused = "unused";
+
+  {
+    var innerUsed = "used";
+    print innerUsed;
+  }
+}
+
+fun functionWithUnusedLocal() {
+  // EXPECT ERROR: functionLocal is never used.
+  var functionLocal = "unused";
+
+  var functionUsed = "used";
+  print functionUsed;
+}
+
+functionWithUnusedLocal();
